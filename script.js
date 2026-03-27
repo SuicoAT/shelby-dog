@@ -1,37 +1,22 @@
-async function loadImages() {
-  const username = "SuicoAT";
-  const repo = "shelby-dog";
-  const path = "photos";
+const gallery = document.getElementById("gallery");
 
-  try {
-    const url = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-    const res = await fetch(url);
+// 👉 Hier deine Bilder automatisch laden
+const imageFolder = "photos/";
 
-    if (!res.ok) {
-      throw new Error("GitHub API Fehler");
-    }
+// ⚠️ WICHTIG: GitHub kann Ordner nicht automatisch listen!
+// Deshalb holen wir Bilder direkt aus dem Repo via API
 
-    const data = await res.json();
-    const gallery = document.getElementById("gallery");
-
-    gallery.innerHTML = ""; // wichtig
-
-    data.forEach(file => {
+fetch("https://api.github.com/repos/SuicoAT/shelby-dog/contents/photos")
+  .then(res => res.json())
+  .then(files => {
+    files.forEach(file => {
       if (file.type === "file") {
-        const wrapper = document.createElement("div");
-        wrapper.className = "item";
-
         const img = document.createElement("img");
         img.src = file.download_url;
-
-        wrapper.appendChild(img);
-        gallery.appendChild(wrapper);
+        gallery.appendChild(img);
       }
     });
-
-  } catch (err) {
-    console.error("FEHLER:", err);
-  }
-}
-
-loadImages();
+  })
+  .catch(err => {
+    console.error("Fehler:", err);
+  });
