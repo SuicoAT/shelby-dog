@@ -35,25 +35,25 @@ header {
 
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 
-  padding: 16px 24px;
+  padding: 20px 24px;
 }
 
-/* LOGO */
+/* LOGO (JETZT GROSS) */
 .logo img {
-  height: 34px;
-  width: 34px;
+  height: 140px;   /* 4x größer */
+  width: auto;
   object-fit: contain;
 }
 
 /* TITLE */
 .logo span {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
 }
 
-/* 🔥 GALLERY GRID (NEU) */
+/* 🔥 GALLERY GRID */
 #gallery {
   max-width: 1400px;
   margin: 40px auto;
@@ -61,18 +61,17 @@ header {
 
   display: grid;
 
-  /* MAGIC RESPONSIVE GRID */
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 
   gap: 20px;
 }
 
-/* ITEM WRAPPER */
+/* ITEM */
 .item {
   width: 100%;
 }
 
-/* IMAGES */
+/* IMAGE */
 .item img {
   width: 100%;
   height: auto;
@@ -90,9 +89,42 @@ header {
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 
-/* 📱 RESPONSIVE TUNING */
+/* 📱 MOBILE OPTIMIERUNG */
 @media (max-width: 600px) {
   #gallery {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
+
+  .logo img {
+    height: 80px; /* kleiner auf Handy */
+  }
+
+  .logo span {
+    font-size: 18px;
+  }
+}
+
+/* 🔥 LIGHTBOX */
+#lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.9);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2000;
+  cursor: zoom-out;
+}
+
+#lightbox img {
+  max-width: 95%;
+  max-height: 95%;
+
+  border-radius: 12px;
 }
