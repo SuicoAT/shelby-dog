@@ -6,24 +6,22 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(files => {
 
-      console.log("Files:", files); // Debug
+      files
+        .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file.name))
+        .forEach(file => {
 
-      files.forEach(file => {
-
-        // 👉 Nur echte Bilder laden
-        if (file.type === "file" && /\.(jpg|jpeg|png|webp)$/i.test(file.name)) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "item";
 
           const img = document.createElement("img");
           img.src = file.download_url;
 
-          gallery.appendChild(img);
-        }
+          wrapper.appendChild(img);
+          gallery.appendChild(wrapper);
 
-      });
+        });
 
     })
-    .catch(err => {
-      console.error("Fehler:", err);
-    });
+    .catch(err => console.error(err));
 
 });
