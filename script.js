@@ -1,5 +1,5 @@
 async function loadImages() {
-  const username = "SuicoAT"; // dein GitHub Username
+  const username = "SuicoAT";
   const repo = "shelby-dog";
   const path = "photos";
 
@@ -14,9 +14,25 @@ async function loadImages() {
     if (file.type === "file") {
       const img = document.createElement("img");
       img.src = file.download_url;
+
+      img.onclick = () => openLightbox(file.download_url);
+
       gallery.appendChild(img);
     }
   });
+}
+
+function openLightbox(src) {
+  const overlay = document.createElement("div");
+  overlay.id = "lightbox";
+
+  overlay.innerHTML = `
+    <img src="${src}">
+  `;
+
+  overlay.onclick = () => overlay.remove();
+
+  document.body.appendChild(overlay);
 }
 
 loadImages();
