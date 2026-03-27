@@ -1,11 +1,10 @@
 const gallery = document.getElementById("gallery");
 
-// 🔥 WICHTIG: DEIN USERNAME + REPO
+// 🔥 GitHub Daten
 const username = "SuicoAT";
 const repo = "shelby-dog";
 const folder = "photos";
 
-// GitHub API URL
 const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
 
 fetch(apiUrl)
@@ -13,24 +12,38 @@ fetch(apiUrl)
   .then(files => {
     files.forEach(file => {
 
-      // nur Bilder laden
       if (file.type === "file" && file.download_url) {
 
-        // 👉 Wrapper (WICHTIG für Grid)
         const wrapper = document.createElement("div");
         wrapper.className = "item";
 
-        // 👉 Bild
         const img = document.createElement("img");
         img.src = file.download_url;
-        img.loading = "lazy"; // 🔥 Performance Boost
+        img.loading = "lazy";
+
+        // 👉 CLICK = Lightbox öffnen
+        img.onclick = () => openLightbox(file.download_url);
 
         wrapper.appendChild(img);
         gallery.appendChild(wrapper);
       }
 
     });
-  })
-  .catch(err => {
-    console.error("Fehler beim Laden der Bilder:", err);
   });
+
+// 🔥 LIGHTBOX FUNKTION
+function openLightbox(src) {
+
+  const overlay = document.createElement("div");
+  overlay.id = "lightbox";
+
+  const img = document.createElement("img");
+  img.src = src;
+
+  overlay.appendChild(img);
+
+  // 👉 Klick irgendwo schließt
+  overlay.onclick = () => overlay.remove();
+
+  document.body.appendChild(overlay);
+}
