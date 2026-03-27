@@ -1,37 +1,89 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
 body {
   background: #000;
-  color: white;
-  font-family: Arial;
-  text-align: center;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
 }
 
-h1 {
-  font-size: 40px;
-  margin: 20px;
+/* HEADER (Apple Style) */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* MASONRY STYLE (Pinterest Look) */
+/* HEADER CONTENT */
+.logo {
+  max-width: 1200px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 20px;
+}
+
+/* LOGO IMAGE */
+.logo img {
+  height: 38px;
+  width: 38px;
+  object-fit: contain;
+}
+
+/* TITLE */
+.logo span {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+/* GALLERY CONTAINER */
 #gallery {
-  column-count: 3;
-  column-gap: 10px;
+  max-width: 1200px;
+  margin: 20px auto;
   padding: 10px;
+
+  column-count: 3;
+  column-gap: 12px;
 }
 
+/* GALLERY ITEMS */
 #gallery img {
   width: 100%;
-  margin-bottom: 10px;
-  border-radius: 12px;
+  margin-bottom: 12px;
+
+  border-radius: 14px;
+
   display: block;
   cursor: pointer;
-  transition: 0.3s;
+
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* HOVER EFFECT */
 #gallery img:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
+  opacity: 0.9;
 }
 
-/* MOBILE */
-@media (max-width: 800px) {
+/* RESPONSIVE */
+@media (max-width: 900px) {
   #gallery {
     column-count: 2;
   }
@@ -50,18 +102,27 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.95);
+
+  background: rgba(0, 0, 0, 0.95);
+
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+
+  z-index: 9999;
+
+  animation: fadeIn 0.2s ease;
 }
 
 #lightbox img {
-  max-width: 95%;
-  max-height: 95%;
-  border-radius: 12px;
+  max-width: 92%;
+  max-height: 92%;
+
+  border-radius: 16px;
 }
-.item {
-  break-inside: avoid;
+
+/* FADE ANIMATION */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
