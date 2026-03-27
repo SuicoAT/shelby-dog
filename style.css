@@ -62,3 +62,6 @@ h1 {
   max-height: 95%;
   border-radius: 12px;
 }
+.item {
+  break-inside: avoid;
+}
