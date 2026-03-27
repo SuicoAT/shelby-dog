@@ -3,36 +3,35 @@ async function loadImages() {
   const repo = "shelby-dog";
   const path = "photos";
 
-  const url = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+  try {
+    const url = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+    const res = await fetch(url);
 
-  const res = await fetch(url);
-  const data = await res.json();
-
-  const gallery = document.getElementById("gallery");
-
-  data.forEach(file => {
-    if (file.type === "file") {
-      const img = document.createElement("img");
-      img.src = file.download_url;
-
-      img.onclick = () => openLightbox(file.download_url);
-
-      gallery.appendChild(img);
+    if (!res.ok) {
+      throw new Error("GitHub API Fehler");
     }
-  });
-}
 
-function openLightbox(src) {
-  const overlay = document.createElement("div");
-  overlay.id = "lightbox";
+    const data = await res.json();
+    const gallery = document.getElementById("gallery");
 
-  overlay.innerHTML = `
-    <img src="${src}">
-  `;
+    gallery.innerHTML = ""; // wichtig
 
-  overlay.onclick = () => overlay.remove();
+    data.forEach(file => {
+      if (file.type === "file") {
+        const wrapper = document.createElement("div");
+        wrapper.className = "item";
 
-  document.body.appendChild(overlay);
+        const img = document.createElement("img");
+        img.src = file.download_url;
+
+        wrapper.appendChild(img);
+        gallery.appendChild(wrapper);
+      }
+    });
+
+  } catch (err) {
+    console.error("FEHLER:", err);
+  }
 }
 
 loadImages();
