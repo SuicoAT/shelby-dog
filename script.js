@@ -1,43 +1,36 @@
-document.addEventListener("DOMContentLoaded", () => {
+const gallery = document.getElementById("gallery");
 
-  console.log("🔥 Script gestartet");
+// 🔥 WICHTIG: DEIN USERNAME + REPO
+const username = "SuicoAT";
+const repo = "shelby-dog";
+const folder = "photos";
 
-  const gallery = document.getElementById("gallery");
+// GitHub API URL
+const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
 
-  if (!gallery) {
-    console.error("❌ gallery nicht gefunden");
-    return;
-  }
+fetch(apiUrl)
+  .then(res => res.json())
+  .then(files => {
+    files.forEach(file => {
 
-  fetch("https://api.github.com/repos/SuicoAT/shelby-dog/contents/photos")
-    .then(res => res.json())
-    .then(files => {
+      // nur Bilder laden
+      if (file.type === "file" && file.download_url) {
 
-      console.log("📦 Files:", files);
+        // 👉 Wrapper (WICHTIG für Grid)
+        const wrapper = document.createElement("div");
+        wrapper.className = "item";
 
-      files.forEach(file => {
+        // 👉 Bild
+        const img = document.createElement("img");
+        img.src = file.download_url;
+        img.loading = "lazy"; // 🔥 Performance Boost
 
-        if (file.type === "file" && /\.(jpg|jpeg|png|webp)$/i.test(file.name)) {
+        wrapper.appendChild(img);
+        gallery.appendChild(wrapper);
+      }
 
-          const wrapper = document.createElement("div");
-          wrapper.className = "item";
-
-          const img = document.createElement("img");
-
-          // 🔥 WICHTIG: RAW URL verwenden
-          img.src = file.download_url;
-
-          img.onload = () => console.log("✅ geladen:", file.name);
-          img.onerror = () => console.error("❌ Fehler bei:", file.name);
-
-          wrapper.appendChild(img);
-          gallery.appendChild(wrapper);
-
-        }
-
-      });
-
-    })
-    .catch(err => console.error("❌ FETCH ERROR:", err));
-
-});
+    });
+  })
+  .catch(err => {
+    console.error("Fehler beim Laden der Bilder:", err);
+  });
